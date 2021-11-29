@@ -1,3 +1,5 @@
+package bicyclebackend
+
 import utest._
 
 object BicycleTestSuite extends TestSuite {
