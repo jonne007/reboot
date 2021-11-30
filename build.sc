@@ -6,7 +6,7 @@ val upickle = "1.2.3"
 val cask = "0.7.5"
 val requestsVersion = "0.6.5"
 
-object bicycle extends ScalaModule {
+object reboot extends ScalaModule {
   def scalaVersion = sv
   def ivyDeps =
     Agg(
