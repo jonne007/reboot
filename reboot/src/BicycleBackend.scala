@@ -6,7 +6,7 @@ case class Aou(allround: String, gravel: String, racer: String)
 trait BicycleBackend {
 
   def get(b: String): Bicycle
-  def addBicycle(b: Bicycle): Unit
+  def addBicycle(b: Bicycle)
   def list(): List[Bicycle]
   def updateStock(c: String, s: Int): Unit
   def searchByBrand(b: String): Bicycle
@@ -21,7 +21,7 @@ class InMemoryBicycleBackend extends BicycleBackend {
   def get(b: String): Bicycle = {
     cycles.find(c => c.brand == b).get
   }
-  def addBicycle(b: Bicycle): Unit = cycles = cycles :+ b
+  def addBicycle(b: Bicycle) = cycles = cycles :+ b
   def list(): List[Bicycle] = cycles
   def updateStock(c: String, s: Int): Unit = {
     // hitta en cykel, lägg till, ta bort, uppdatera
