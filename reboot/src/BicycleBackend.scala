@@ -1,46 +1,54 @@
 package backend
 
+import java.util.UUID
+
 case class Bicycle(brand: String, price: Double, stock: Int)
-//case class Aou(allround: String, gravel: String, racer: String)
 
+ 
 trait BicycleBackend {
-
-  def get(b: String): Bicycle
-  def addBicycle(b: Bicycle)
+  
+  def createID() = UUID.randomUUID.toString()
+  def get(b: String): Option[Bicycle]
+  def addBicycle(b: Bicycle): String
   def list(): List[Bicycle]
-  def updateStock(c: String, s: Int): Unit
-  def searchByBrand(b: String): Bicycle
-  def searchByPrice(p: Double): Bicycle
-  //def searchBysort(s: Aou): Bicycle
+  def update(id: String, b: Bicycle): Unit
+  def searchByBrand(b: String): List[Bicycle]
+  //def searchByPrice(p: Double): Bicycle
   def buy(b: String, amount: Int): Double
 }
 class InMemoryBicycleBackend extends BicycleBackend {
-  var cycles: List[Bicycle] = List()
+  var cycles: Map[String, Bicycle] = Map.empty
 
-  def test(i: Int): String = "test " * i
-  def get(b: String): Bicycle = {
-    cycles.find(c => c.brand == b).get
+  def get(id: String): Option[Bicycle] = {
+    cycles.get(id)
   }
-  def addBicycle(b: Bicycle) = cycles = cycles :+ b
-  def list(): List[Bicycle] = cycles
-  def updateStock(c: String, s: Int): Unit = {
+  def addBicycle(b: Bicycle): String = { 
+   val id = createID()
+   cycles = cycles + (id -> b)
+   id
+
+  }
+  def list(): List[Bicycle] = cycles.values.toList
+  def update(id: String, b: Bicycle): Unit = {
     // hitta en cykel, lägg till, ta bort, uppdatera
-    val h = cycles.find(b => b.brand == c).get
-    val lt = h.copy(stock = s)
-    val tb = cycles.filterNot(h => h.brand == c)
-    cycles = tb :+ lt
+   cycles = cycles + (id -> b)
+
   }
-  def searchByBrand(b: String): Bicycle = {
-    cycles.find(c => c.brand.toLowerCase == b).get
+  def searchByBrand(b: String): List[Bicycle] = search { c => 
+    c.brand
+    .toLowerCase()
+    .contains(b.toLowerCase()) 
+   
   }
-  def searchByPrice(p: Double): Bicycle = cycles.find(c => c.price == p).get
-  //def searchBysort(s: Aou): Bicycle = ???
+  def searchByPrice(p: Double): Bicycle = ???
+
   def buy(b: String, amount: Int): Double = {
 
-    val c = get(b)
+    val c = get(b).get
     val newAmount = c.stock - amount
-    updateStock(b, newAmount)
+    update(b, c.copy(stock = newAmount))
     c.price * amount
 
   }
+  def search(f: Bicycle => Boolean): List[Bicycle] = list().filter(f)
 }
