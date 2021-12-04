@@ -50,5 +50,5 @@ class InMemoryBicycleBackend extends BicycleBackend {
     c.price * amount
 
   }
-  def search(f: Bicycle => Boolean): List[Bicycle] = list().filter(f)
+  def search(b: Bicycle => Boolean): List[Bicycle] = list().filter(b)
 }
