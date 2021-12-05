@@ -52,6 +52,7 @@ object BicycleSuite extends TestSuite {
       val bc3 = Bicycle("canyon", 500, 10)
       val adbc = bb.addBicycle(bc1)
       val gbc = bb.get(adbc).get.copy(stock = 33)
+
       bb.update(adbc, gbc)
       
       val r = bb.get(adbc).get.stock
@@ -71,6 +72,52 @@ object BicycleSuite extends TestSuite {
       val r = cost
 
       r ==> 2224.6
+    }
+    test("test delete") - {
+      val bb = new InMemoryBicycleBackend()
+
+      val bc1 = Bicycle("Cresent", 1112.3, 11)
+      val bc2 = Bicycle("monark", 100.5, 22)
+      val bc3 = Bicycle("canyon", 500, 10)
+      val adbc1 = bb.addBicycle(bc1)
+      val adbc2 = bb.addBicycle(bc2)
+      
+      
+      bb.delete(adbc1)
+      
+      val r = bb.list()
+
+      r.size ==> 1
+    }
+    test("test searchByBrand") - {
+      val bb = new InMemoryBicycleBackend()
+
+      val bc1 = Bicycle("Cresent", 1112.3, 11)
+      val bc2 = Bicycle("monark", 100.5, 22)
+      val bc3 = Bicycle("canyon", 500, 10)
+      val bc4 = Bicycle("cresent", 250.50, 7)
+      val adbc1 = bb.addBicycle(bc1)
+      val adbc2 = bb.addBicycle(bc2)
+      val adbc3 = bb.addBicycle(bc3)
+      val adbc4 = bb.addBicycle(bc4)
+      
+      val r = bb.searchByBrand("cresent")
+
+      r.size ==> 2
+    }
+    test("test searchByPrice") - {
+      val bb = new InMemoryBicycleBackend()
+
+      val bc1 = Bicycle("Cresent", 1112.3, 11)
+      val bc2 = Bicycle("monark", 100.5, 22)
+      val bc3 = Bicycle("canyon", 500, 10)
+      val bc4 = Bicycle("cresent", 250.50, 7)
+      val adbc1 = bb.addBicycle(bc1)
+      val adbc2 = bb.addBicycle(bc2)
+      val adbc3 = bb.addBicycle(bc3)
+      val adbc4 = bb.addBicycle(bc4)
+      
+    
     }
   }
 }

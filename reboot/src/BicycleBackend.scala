@@ -15,6 +15,7 @@ trait BicycleBackend {
   def searchByBrand(b: String): List[Bicycle]
   //def searchByPrice(p: Double): Bicycle
   def buy(b: String, amount: Int): Double
+  def delete(b: String): Unit
 }
 class InMemoryBicycleBackend extends BicycleBackend {
   var cycles: Map[String, Bicycle] = Map.empty
@@ -30,7 +31,6 @@ class InMemoryBicycleBackend extends BicycleBackend {
   }
   def list(): List[Bicycle] = cycles.values.toList
   def update(id: String, b: Bicycle): Unit = {
-    // hitta en cykel, lägg till, ta bort, uppdatera
    cycles = cycles + (id -> b)
 
   }
@@ -40,7 +40,7 @@ class InMemoryBicycleBackend extends BicycleBackend {
     .contains(b.toLowerCase()) 
    
   }
-  def searchByPrice(p: Double): Bicycle = ???
+  def searchByMaxPrice(p: Double): List[Bicycle] = ???
 
   def buy(b: String, amount: Int): Double = {
 
@@ -50,5 +50,10 @@ class InMemoryBicycleBackend extends BicycleBackend {
     c.price * amount
 
   }
+  def delete(b: String): Unit = {
+    val bc1 = cycles.removed(b)
+    cycles = bc1
+  }
+
   def search(b: Bicycle => Boolean): List[Bicycle] = list().filter(b)
 }
