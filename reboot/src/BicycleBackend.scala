@@ -4,16 +4,16 @@ import java.util.UUID
 
 case class Bicycle(brand: String, price: Double, stock: Int)
 
- 
 trait BicycleBackend {
-  
+
   def createID() = UUID.randomUUID.toString()
   def get(b: String): Option[Bicycle]
   def addBicycle(b: Bicycle): String
   def list(): List[Bicycle]
   def update(id: String, b: Bicycle): Unit
   def searchByBrand(b: String): List[Bicycle]
-  //def searchByPrice(p: Double): Bicycle
+  def searchByMaxPrice(p: Double): List[Bicycle]
+  def searchByBrandnPrice(p: Double, b: String): List[Bicycle]
   def buy(b: String, amount: Int): Double
   def delete(b: String): Unit
 }
@@ -23,26 +23,36 @@ class InMemoryBicycleBackend extends BicycleBackend {
   def get(id: String): Option[Bicycle] = {
     cycles.get(id)
   }
-  def addBicycle(b: Bicycle): String = { 
-   val id = createID()
-   cycles = cycles + (id -> b)
-   id
+  def addBicycle(b: Bicycle): String = {
+    val id = createID()
+    cycles = cycles + (id -> b)
+    id
 
   }
   def list(): List[Bicycle] = cycles.values.toList
   def update(id: String, b: Bicycle): Unit = {
-   cycles = cycles + (id -> b)
+    cycles = cycles + (id -> b)
 
   }
-  def searchByBrand(b: String): List[Bicycle] = search { c => 
+  def searchByBrand(b: String): List[Bicycle] = search { c =>
     c.brand
-    .toLowerCase()
-    .contains(b.toLowerCase()) 
-   
-  }
-  def searchByMaxPrice(p: Double): List[Bicycle] = ???
+      .toLowerCase()
+      .contains(b.toLowerCase())
 
-  def buy(b: String, amount: Int): Double = {
+  }
+  def searchByMaxPrice(p: Double): List[Bicycle] = {
+    search(c => c.price <= p)
+
+  }
+
+  def searchByBrandnPrice(p: Double, b: String): List[Bicycle] = {
+    val cycles2 = list().filter(c => c.price <= p)
+    cycles2.filter(c => c.brand
+    .toLowerCase()
+    .contains(b.toLowerCase()))
+
+  }
+    def buy(b: String, amount: Int): Double = {
 
     val c = get(b).get
     val newAmount = c.stock - amount
