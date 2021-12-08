@@ -7,3 +7,11 @@ skapa modellen (case klasser)
 skapa saker i lager 
 köpa saker 
 saker söka på olika kriterier - pris - namn (case insensitive)
+
+SERVER TEST TJOSAN
+
+mill -w reboot.runBackground        
+
+curl -XPOST http://localhost:8080/cycles -d '{"brand":"cresent", "price":300, "stock":22}'
+
+curl -XGET http://localhost:8080/cycles 
