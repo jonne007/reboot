@@ -21,8 +21,8 @@ object Server extends cask.MainRoutes {
   @cask.postJson("/cycles/:bid/update")
   def update(bid: String, brand: ujson.Value) = {
     val b = bb.get(bid).get
-    val updated = b.copy(brand = brand.str)
-    bb.update(b, updated)
+    val updatedB = b.copy(brand = brand.str)
+    bb.update(bid, updatedB)
     ujson.Obj("updated" -> true)
   }
 
