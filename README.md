@@ -17,9 +17,16 @@ curl -XPOST http://localhost:8080/cycles -d '{"brand":"cresent", "price":300, "s
 curl -XGET http://localhost:8080/cycles 
 
 https://github.com/OpenResult/caskscalajs
-
 git@github.com:Magua/myapp.git
-
 git clone git@github.com:Magua/myapp.git
 
-NPM INSTALL
+NPM INSTALL in vuejs
+
+lös backend på Servern
+
+Läs på vuejs
+kör tutorial vue nuxtJS -- https://nuxtjs.org/tutorials/creating-a-nuxt-module - Create a blog
+
+
+
+
