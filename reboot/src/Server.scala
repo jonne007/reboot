@@ -3,6 +3,7 @@ import backend.Bicycle
 object Server extends cask.MainRoutes {
 
   val bicycleBackend = new InMemoryBicycleBackend
+  
 
   @cask.get("/cycles")
   def list() = {
@@ -16,6 +17,13 @@ object Server extends cask.MainRoutes {
     val b = Bicycle(brand.str, price.num, stock.num.toInt)
     val id = bicycleBackend.addBicycle(b)
     ujson.Obj("bicycleId" -> id)
+  }
+
+  @cask.postJson("/cycles/:bid/update")
+  def update(bid: String, name: ujson.Value) = {
+    val b = bb.get.bid.get
+    val updated = b.copy(name = name.str)
+    bb.update(b, updated)
   }
 
   initialize()
