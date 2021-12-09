@@ -15,3 +15,11 @@ mill -w reboot.runBackground
 curl -XPOST http://localhost:8080/cycles -d '{"brand":"cresent", "price":300, "stock":22}'
 
 curl -XGET http://localhost:8080/cycles 
+
+https://github.com/OpenResult/caskscalajs
+
+git@github.com:Magua/myapp.git
+
+git clone git@github.com:Magua/myapp.git
+
+NPM INSTALL
